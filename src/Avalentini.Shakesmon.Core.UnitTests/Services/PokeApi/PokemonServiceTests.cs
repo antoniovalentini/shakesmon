@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -14,12 +15,13 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
 {
     public class PokemonServiceTests
     {
+        #region GET_POKEMON
         [Fact]
         public async Task GetPokemon_ShouldReturnPokemon_WhenHttpClientReturnsOk()
         {
             // ARRANGE
             var pokemon = new Pokemon {Id = "6"};
-            var client = MockHttpClient(HttpStatusCode.OK, pokemon);
+            var client = MockHttpClientGetPokemon(HttpStatusCode.OK, pokemon);
             var sut = new PokemonService(client);
 
             // ACT
@@ -36,7 +38,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
         {
             // ARRANGE
             var pokemon = new Pokemon {Id = "6"};
-            var client = MockHttpClient(HttpStatusCode.InternalServerError, pokemon);
+            var client = MockHttpClientGetPokemon(HttpStatusCode.InternalServerError, pokemon);
             var sut = new PokemonService(client);
 
             // ACT
@@ -45,7 +47,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             // ASSERT
             Assert.NotNull(result);
             Assert.Null(result.Pokemon);
-            Assert.True(result.Error.Equals(PokemonService.InvalidResponseError, StringComparison.InvariantCultureIgnoreCase));
+            Assert.True(result.Error.Equals(PokemonService.PokemonInvalidResponseError, StringComparison.InvariantCultureIgnoreCase));
         }
 
         [Fact]
@@ -53,7 +55,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
         {
             // ARRANGE
             var pokemon = new Pokemon {Id = "6"};
-            var client = MockHttpClient(HttpStatusCode.InternalServerError, pokemon);
+            var client = MockHttpClientGetPokemon(HttpStatusCode.InternalServerError, pokemon);
             var sut = new PokemonService(client);
 
             // ACT
@@ -70,7 +72,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
         {
             // ARRANGE
             var pokemon = new Pokemon {Id = "6"};
-            var client = MockHttpClient(HttpStatusCode.NotFound, pokemon);
+            var client = MockHttpClientGetPokemon(HttpStatusCode.NotFound, pokemon);
             var sut = new PokemonService(client);
 
             // ACT
@@ -82,7 +84,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             Assert.True(result.Error.Equals(PokemonService.PokemonNotFoundError, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        private static HttpClient MockHttpClient(HttpStatusCode status, Pokemon pokemon)
+        private static HttpClient MockHttpClientGetPokemon(HttpStatusCode status, Pokemon pokemon)
         {
             var handler = new Mock<HttpMessageHandler>();
             handler.Protected()
@@ -95,5 +97,106 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
                 });
             return new HttpClient(handler.Object);
         }
+        #endregion
+
+        #region GET_SPECIES
+        [Fact]
+        public async Task GetSpecies_ShouldReturnSpecies_WhenHttpClientReturnsOk()
+        {
+            // ARRANGE
+            const string flavorText = "something";
+            var species = MockSpecies(flavorText);
+            var client = MockHttpClientGetSpecies(HttpStatusCode.OK, species);
+            var sut = new PokemonService(client);
+
+            // ACT
+            var result = await sut.GetSpecies("anything");
+
+            // ASSERT
+            Assert.NotNull(result);
+            Assert.NotNull(result.FlavorTextEntry);
+            Assert.True(result.FlavorTextEntry.FlavorText.Equals(flavorText, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [Fact]
+        public async Task GetSpecies_ShouldReturnError_WhenHttpClientReturnsError()
+        {
+            // ARRANGE
+            const string flavorText = "something";
+            var species = MockSpecies(flavorText);
+            var client = MockHttpClientGetSpecies(HttpStatusCode.InternalServerError, species);
+            var sut = new PokemonService(client);
+
+            // ACT
+            var result = await sut.GetSpecies("anything");
+
+            // ASSERT
+            Assert.NotNull(result);
+            Assert.Null(result.FlavorTextEntry);
+            Assert.True(result.Error.Equals(PokemonService.SpeciesInvalidResponseError, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [Fact]
+        public async Task GetSpecies_ShouldReturnError_WhenNoIdIsProvided()
+        {
+            // ARRANGE
+            const string flavorText = "something";
+            var species = MockSpecies(flavorText);
+            var client = MockHttpClientGetSpecies(HttpStatusCode.InternalServerError, species);
+            var sut = new PokemonService(client);
+
+            // ACT
+            var result = await sut.GetSpecies("");
+
+            // ASSERT
+            Assert.NotNull(result);
+            Assert.Null(result.FlavorTextEntry);
+            Assert.True(result.Error.Equals(PokemonService.EmptyPokemonIdError, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [Fact]
+        public async Task GetSpecies_ShouldReturnNotFoundError_WhenPokemonNotFound()
+        {
+            // ARRANGE
+            const string flavorText = "something";
+            var species = MockSpecies(flavorText);
+            var client = MockHttpClientGetSpecies(HttpStatusCode.NotFound, species);
+            var sut = new PokemonService(client);
+
+            // ACT
+            var result = await sut.GetSpecies("anything");
+
+            // ASSERT
+            Assert.NotNull(result);
+            Assert.Null(result.FlavorTextEntry);
+            Assert.True(result.Error.Equals(PokemonService.SpeciesNotFoundError, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        private static Species MockSpecies(string flavorText)
+        {
+            return new Species {FlavorTextEntries = new List<FlavorTextEntry>
+            {
+                new FlavorTextEntry
+                {
+                    FlavorText = flavorText,
+                    Language = new Language {Name = "en"}
+                }
+            }};
+        }
+
+        private static HttpClient MockHttpClientGetSpecies(HttpStatusCode status, Species species)
+        {
+            var handler = new Mock<HttpMessageHandler>();
+            handler.Protected()
+                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(new HttpResponseMessage
+                {
+                    StatusCode = status,
+                    Content = new StringContent(JsonConvert.SerializeObject(species)),
+                });
+            return new HttpClient(handler.Object);
+        }
+        #endregion
     }
 }
