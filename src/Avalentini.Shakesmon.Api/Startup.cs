@@ -22,6 +22,7 @@ namespace Avalentini.Shakesmon.Api
         {
             services.AddHttpClient<IPokemonService, PokemonService>();
             services.AddHttpClient<IShakespeareService, ShakespeareService>();
+
             services.AddControllers();
         }
 
@@ -34,6 +35,8 @@ namespace Avalentini.Shakesmon.Api
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 

@@ -8,5 +8,9 @@
     <ProjectReference Include="..\Avalentini.Shakesmon.Core\Avalentini.Shakesmon.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 
 </Project>
