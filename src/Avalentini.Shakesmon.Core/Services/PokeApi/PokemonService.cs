@@ -28,6 +28,9 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
 
         public async Task<GetPokemonResponse> GetPokemon(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                return new GetPokemonResponse{Error = $"{nameof(name)} is empty."};
+
             var response = await _client.GetAsync($"{PokeApiPokemonFeature}/{name}");
             if (!response.IsSuccessStatusCode)
                 return new GetPokemonResponse{Error = $"Error while fetching pokemon {name} information."};
@@ -37,6 +40,9 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
 
         public async Task<GetSpeciesResponse> GetSpecies(string id)
         {
+            if (string.IsNullOrEmpty(id))
+                return new GetSpeciesResponse{Error = $"{nameof(id)} is empty."};
+
             var speciesRaw = await _client.GetAsync($"{PokeApiSpeciesFeature}/{id}");
             if (!speciesRaw.IsSuccessStatusCode)
                 return new GetSpeciesResponse {Error = $"Error while fetching species for id->{id}"};

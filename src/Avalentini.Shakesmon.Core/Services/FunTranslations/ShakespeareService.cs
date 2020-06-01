@@ -26,6 +26,9 @@ namespace Avalentini.Shakesmon.Core.Services.FunTranslations
 
         public async Task<TranslateResponse> Translate(string text)
         {
+            if (string.IsNullOrEmpty(text))
+                return new TranslateResponse{Error = $"{nameof(text)} is empty."};
+
             var content = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("text", text)
