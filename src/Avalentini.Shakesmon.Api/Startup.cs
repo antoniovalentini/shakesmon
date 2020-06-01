@@ -1,3 +1,4 @@
+using Avalentini.Shakesmon.Core.Services.FunTranslations;
 using Avalentini.Shakesmon.Core.Services.PokeApi;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,6 +21,7 @@ namespace Avalentini.Shakesmon.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient<IPokemonService, PokemonService>();
+            services.AddHttpClient<IShakespeareService, ShakespeareService>();
             services.AddControllers();
         }
 

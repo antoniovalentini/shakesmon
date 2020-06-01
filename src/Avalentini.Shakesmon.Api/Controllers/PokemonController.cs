@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Avalentini.Shakesmon.Core.Services.FunTranslations;
 using Avalentini.Shakesmon.Core.Services.PokeApi;
 
 namespace Avalentini.Shakesmon.Api.Controllers
@@ -9,10 +10,12 @@ namespace Avalentini.Shakesmon.Api.Controllers
     public class PokemonController : ControllerBase
     {
         private readonly IPokemonService _pokemonService;
+        private readonly IShakespeareService _shakespeareService;
 
-        public PokemonController(IPokemonService pokemonService)
+        public PokemonController(IPokemonService pokemonService, IShakespeareService shakespeareService)
         {
             _pokemonService = pokemonService;
+            _shakespeareService = shakespeareService;
         }
 
         [HttpGet("{name}")]
@@ -28,10 +31,15 @@ namespace Avalentini.Shakesmon.Api.Controllers
             if (!speciesResult.IsSuccess)
                 return BadRequest(speciesResult.Error);
 
+            var translationResult = await _shakespeareService.Translate(speciesResult.FlavorTextEntry.FlavorText);
+            // TODO: replace with 500?
+            if (!translationResult.IsSuccess)
+                return BadRequest(translationResult.Error);
+
             return Ok(new GetDto
             {
                 Name = name,
-                Description = speciesResult.FlavorTextEntry.FlavorText,
+                Description = translationResult.Translation.Contents.Translated,
             });
         }
     }
