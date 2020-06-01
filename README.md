@@ -15,6 +15,18 @@ Clone the project on your local machine, navigate to the Shakesmon folder, open 
 ```
 dotnet run --project .\src\Avalentini.Shakesmon.Api\Avalentini.Shakesmon.Api.csproj
 ```
+To test the application, open you browser and navigate to:
+```
+https://localhost:5001/api/pokemon/bulbasaur
+```
+
+You should see a response like the one below:
+```JSON
+{
+  "name": "bulbasaur",
+  "description": "Bulbasaur can beest seen napping in bright sunlight. Thither is a seed on its back. By soaking up the travelling lamp’s rays, the seed grows progressively larger."
+}
+```
 
 ### Docker
 TBD
