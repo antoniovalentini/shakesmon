@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Avalentini.Shakesmon.Core.Services.PokeApi;
 
 namespace Avalentini.Shakesmon.Api.Controllers
 {
@@ -7,14 +8,25 @@ namespace Avalentini.Shakesmon.Api.Controllers
     [Route("api/[controller]")]
     public class PokemonController : ControllerBase
     {
+        private readonly IPokemonService _pokemonService;
+
+        public PokemonController(IPokemonService pokemonService)
+        {
+            _pokemonService = pokemonService;
+        }
+
         [HttpGet("{name}")]
         public async Task<IActionResult> Get(string name)
         {
-            await Task.CompletedTask;
+            var pokeResult = await _pokemonService.GetPokemon(name);
+            // TODO: replace with 500?
+            if (!pokeResult.IsSuccess)
+                return BadRequest(pokeResult.Error);
+
             return Ok(new GetDto
             {
                 Name = name,
-                Description = "some description",
+                Description = pokeResult.Pokemon.Id
             });
         }
     }
