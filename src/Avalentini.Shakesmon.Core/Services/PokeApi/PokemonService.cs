@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Avalentini.Shakesmon.Core.Services.PokeApi.Dto;
@@ -15,6 +16,10 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
 
     public class PokemonService : IPokemonService
     {
+        public const string InvalidResponseError = "Error while fetching pokemon information.";
+        public const string PokemonNotFoundError = "Unable to find the desired pokemon.";
+        public const string EmptyPokemonNameError = "Please provide a pokemon name.";
+
         private readonly HttpClient _client;
         private const string PokeApiBaseUrl = "https://pokeapi.co/api/v2/";
         private const string PokeApiPokemonFeature = "pokemon";
@@ -29,11 +34,16 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
         public async Task<GetPokemonResponse> GetPokemon(string name)
         {
             if (string.IsNullOrEmpty(name))
-                return new GetPokemonResponse{Error = $"{nameof(name)} is empty."};
+                return new GetPokemonResponse{Error = EmptyPokemonNameError};
 
             var response = await _client.GetAsync($"{PokeApiPokemonFeature}/{name}");
             if (!response.IsSuccessStatusCode)
-                return new GetPokemonResponse{Error = $"Error while fetching pokemon {name} information."};
+                return response.StatusCode switch
+                {
+                    HttpStatusCode.NotFound => new GetPokemonResponse{Error = PokemonNotFoundError},
+                    _ => new GetPokemonResponse{Error = InvalidResponseError},
+                };
+
             var pokemon = JsonConvert.DeserializeObject<Pokemon>(await response.Content.ReadAsStringAsync());
             return new GetPokemonResponse{Pokemon = pokemon};
         }
