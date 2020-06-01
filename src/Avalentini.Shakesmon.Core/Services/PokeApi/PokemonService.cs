@@ -58,6 +58,7 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
                 return new GetSpeciesResponse{Error = EmptyPokemonIdError};
 
             var response = await _client.GetAsync($"{PokeApiSpeciesFeature}/{id}");
+            // TODO: handle requests limit reached
             if (!response.IsSuccessStatusCode)
                 return response.StatusCode switch
                 {

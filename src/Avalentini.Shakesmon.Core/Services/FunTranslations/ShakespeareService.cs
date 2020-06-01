@@ -34,6 +34,7 @@ namespace Avalentini.Shakesmon.Core.Services.FunTranslations
                 new KeyValuePair<string, string>("text", text)
             });
             var shakeResponse = await _client.PostAsync(ShakespeareRequestUri, content);
+            // TODO: handle requests limit reached
             if (!shakeResponse.IsSuccessStatusCode)
                 return new TranslateResponse{Error = "Unable to translate text."};
             var translation = JsonConvert.DeserializeObject<Translation>(await shakeResponse.Content.ReadAsStringAsync());

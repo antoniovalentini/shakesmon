@@ -21,6 +21,7 @@ namespace Avalentini.Shakesmon.Api.Controllers
         [HttpGet("{name}")]
         public async Task<IActionResult> Get(string name)
         {
+            // TODO: make language customizable?
             if (string.IsNullOrEmpty(name))
                 return BadRequest("Pokemon name cannot be empty. Don't know what to choose? Try 'charizard'");
 
