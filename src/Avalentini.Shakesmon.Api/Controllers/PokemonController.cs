@@ -23,10 +23,15 @@ namespace Avalentini.Shakesmon.Api.Controllers
             if (!pokeResult.IsSuccess)
                 return BadRequest(pokeResult.Error);
 
+            var speciesResult = await _pokemonService.GetSpecies(pokeResult.Pokemon.Id);
+            // TODO: replace with 500?
+            if (!speciesResult.IsSuccess)
+                return BadRequest(speciesResult.Error);
+
             return Ok(new GetDto
             {
                 Name = name,
-                Description = pokeResult.Pokemon.Id
+                Description = speciesResult.FlavorTextEntry.FlavorText,
             });
         }
     }
