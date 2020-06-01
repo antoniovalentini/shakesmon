@@ -1,5 +1,5 @@
 # Shakesmon
-A simple web app which adds a Shakespeare flavor to pokemon descriptions. It exposed a REST API that , given a Pokemon name, returns its Shakespearean description.
+A simple web app which adds a Shakespeare flavor to pokemon descriptions. It exposes a REST API that, given a Pokemon name, returns its Shakespearean description.
 
 It relies on two platforms:
 - [PokeApi](https://pokeapi.co/) to fetch pokemons' description
