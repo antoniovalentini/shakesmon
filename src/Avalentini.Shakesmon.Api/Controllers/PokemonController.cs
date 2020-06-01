@@ -21,20 +21,20 @@ namespace Avalentini.Shakesmon.Api.Controllers
         [HttpGet("{name}")]
         public async Task<IActionResult> Get(string name)
         {
+            if (string.IsNullOrEmpty(name))
+                return BadRequest("Pokemon name cannot be empty. Don't know what to choose? Try 'charizard'");
+
             var pokeResult = await _pokemonService.GetPokemon(name);
-            // TODO: replace with 500?
             if (!pokeResult.IsSuccess)
-                return BadRequest(pokeResult.Error);
+                return StatusCode(500, pokeResult.Error);
 
             var speciesResult = await _pokemonService.GetSpecies(pokeResult.Pokemon.Id);
-            // TODO: replace with 500?
             if (!speciesResult.IsSuccess)
-                return BadRequest(speciesResult.Error);
+                return StatusCode(500, speciesResult.Error);
 
             var translationResult = await _shakespeareService.Translate(speciesResult.FlavorTextEntry.FlavorText);
-            // TODO: replace with 500?
             if (!translationResult.IsSuccess)
-                return BadRequest(translationResult.Error);
+                return StatusCode(500, translationResult.Error);
 
             return Ok(new GetDto
             {
