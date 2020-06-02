@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Avalentini.Shakesmon.Core.Services.FunTranslations;
-using Avalentini.Shakesmon.Core.Services.PokeApi;
+using Avalentini.Shakesmon.Core.Features.PokemonTranslator;
 
 namespace Avalentini.Shakesmon.Api.Controllers
 {
@@ -9,13 +8,11 @@ namespace Avalentini.Shakesmon.Api.Controllers
     [Route("api/[controller]")]
     public class PokemonController : ControllerBase
     {
-        private readonly IPokemonService _pokemonService;
-        private readonly IShakespeareService _shakespeareService;
+        private readonly PokemonTranslatorFeature _feature;
 
-        public PokemonController(IPokemonService pokemonService, IShakespeareService shakespeareService)
+        public PokemonController(PokemonTranslatorFeature feature)
         {
-            _pokemonService = pokemonService;
-            _shakespeareService = shakespeareService;
+            _feature = feature;
         }
 
         [HttpGet("{name}")]
@@ -25,22 +22,15 @@ namespace Avalentini.Shakesmon.Api.Controllers
             if (string.IsNullOrEmpty(name))
                 return BadRequest("Pokemon name cannot be empty. Don't know what to choose? Try 'charizard'");
 
-            var pokeResult = await _pokemonService.GetPokemon(name);
-            if (!pokeResult.IsSuccess)
-                return StatusCode(500, pokeResult.Error);
+            var result = await _feature.ExecuteAsync(name);
 
-            var speciesResult = await _pokemonService.GetSpecies(pokeResult.Pokemon.Id);
-            if (!speciesResult.IsSuccess)
-                return StatusCode(500, speciesResult.Error);
-
-            var translationResult = await _shakespeareService.Translate(speciesResult.FlavorTextEntry.FlavorText);
-            if (!translationResult.IsSuccess)
-                return StatusCode(500, translationResult.Error);
+            if (!result.IsSuccess)
+                return StatusCode(500, result.Error);
 
             return Ok(new GetDto
             {
                 Name = name,
-                Description = translationResult.Translation.Contents.Translated,
+                Description = result.Description,
             });
         }
     }
