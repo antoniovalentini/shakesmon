@@ -15,6 +15,12 @@ namespace Avalentini.Shakesmon.Api.Controllers
             _feature = feature;
         }
 
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok("Please, provide a pokemon name.");
+        }
+
         [HttpGet("{name}")]
         public async Task<IActionResult> Get(string name)
         {

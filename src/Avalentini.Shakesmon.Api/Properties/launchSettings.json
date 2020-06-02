@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/pokemon/charizard",
+      "launchUrl": "api/pokemon",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,7 +20,7 @@
     "Avalentini.Shakesmon.Api": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/pokemon/charizard",
+      "launchUrl": "api/pokemon",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -29,7 +29,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/pokemon/charizard",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/api/pokemon",
       "publishAllPorts": true,
       "useSSL": true
     }
