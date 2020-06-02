@@ -13,7 +13,7 @@ Requirements:
 
 Clone the project on your local machine, navigate to the Shakesmon folder, open the command line and type:
 ```
-dotnet run --project .\src\Avalentini.Shakesmon.Api\Avalentini.Shakesmon.Api.csproj
+dotnet run --project ./src/Avalentini.Shakesmon.Api/Avalentini.Shakesmon.Api.csproj
 ```
 To test the application, open you browser and navigate to:
 ```
@@ -36,7 +36,7 @@ Clone the project on your local machine, open the terminal, navigate to the proj
 
 ```
 sudo docker build -t shakesmon .
-sudo docker run -d -p 8080:80 --name shakesmon shakesmon
+sudo docker run -d -p 5000:80 -p 5001:443 --name shakesmon shakesmon
 ```
 
 If everything went smoothly, open you browser and navigate to http://localhost:8080/api/pokemon/bulbasaur in order to test the application.
