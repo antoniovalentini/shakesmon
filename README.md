@@ -29,7 +29,17 @@ You should see a response like the one below:
 ```
 
 ### Docker
-TBD
+Requirements:
+- [Docker Engine](https://docs.docker.com/engine/install/)
+
+Clone the project on your local machine, open the terminal, navigate to the project "src" folder and run the following commands:
+
+```
+sudo docker build -t shakesmon .
+sudo docker run -d -p 8080:80 --name shakesmon shakesmon
+```
+
+If everything went smoothly, open you browser and navigate to http://localhost:8080/api/pokemon/bulbasaur in order to test the application.
 
 ## LICENSE
 Shakesmon is released under the MIT license.
