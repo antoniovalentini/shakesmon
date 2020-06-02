@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Avalentini.Shakesmon.Core.Common.Cache;
 using Avalentini.Shakesmon.Core.Services.PokeApi.Dto;
 using Newtonsoft.Json;
 
@@ -25,13 +25,15 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
         public const string SpeciesNotFoundError = "Unable to find the desired species.";
 
         private readonly HttpClient _client;
+        private readonly ICache _cache;
         private const string PokeApiBaseUrl = "https://pokeapi.co/api/v2/";
         private const string PokeApiPokemonFeature = "pokemon";
         private const string PokeApiSpeciesFeature = "pokemon-species";
 
-        public PokemonService(HttpClient client)
+        public PokemonService(HttpClient client, ICache cache)
         {
             _client = client;
+            _cache = cache;
             _client.BaseAddress = new Uri(PokeApiBaseUrl);
         }
 
@@ -39,6 +41,11 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
         {
             if (string.IsNullOrEmpty(name))
                 return new GetPokemonResponse{Error = EmptyPokemonNameError};
+
+            var key = ComputePokemonCacheKey(name);
+            var cached = _cache.Get<Pokemon>(key);
+            if (cached != null)
+                return new GetPokemonResponse{Pokemon = cached};
 
             var response = await _client.GetAsync($"{PokeApiPokemonFeature}/{name}");
             if (!response.IsSuccessStatusCode)
@@ -49,6 +56,8 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
                 };
 
             var pokemon = JsonConvert.DeserializeObject<Pokemon>(await response.Content.ReadAsStringAsync());
+            _cache.Set(key, pokemon);
+
             return new GetPokemonResponse{Pokemon = pokemon};
         }
 
@@ -56,6 +65,11 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
         {
             if (string.IsNullOrEmpty(id))
                 return new GetSpeciesResponse{Error = EmptyPokemonIdError};
+
+            var key = ComputeSpeciesCacheKey(id);
+            var cached = _cache.Get<Species>(key);
+            if (cached != null)
+                return new GetSpeciesResponse{FlavorTextEntry = cached.GetFlavorByLanguage("en")};
 
             var response = await _client.GetAsync($"{PokeApiSpeciesFeature}/{id}");
             // TODO: handle requests limit reached
@@ -67,8 +81,19 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
                 };
 
             var species = JsonConvert.DeserializeObject<Species>(await response.Content.ReadAsStringAsync());
-            var entry = species.FlavorTextEntries.First(s => s.Language.Name.Equals("en", StringComparison.InvariantCultureIgnoreCase));
-            return new GetSpeciesResponse {FlavorTextEntry = entry};
+            _cache.Set(key, species);
+
+            return new GetSpeciesResponse {FlavorTextEntry = species.GetFlavorByLanguage("en")};
+        }
+
+        private static string ComputePokemonCacheKey(string pokemonName)
+        {
+            return $"pokemon_{pokemonName}";
+        }
+
+        private static string ComputeSpeciesCacheKey(string id)
+        {
+            return $"species_{id}";
         }
     }
 }

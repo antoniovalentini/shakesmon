@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Avalentini.Shakesmon.Core.Common.Cache;
 using Avalentini.Shakesmon.Core.Services.PokeApi;
 using Avalentini.Shakesmon.Core.Services.PokeApi.Dto;
 using Moq;
@@ -22,7 +23,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             // ARRANGE
             var pokemon = new Pokemon {Id = "6"};
             var client = MockHttpClientGetPokemon(HttpStatusCode.OK, pokemon);
-            var sut = new PokemonService(client);
+            var sut = new PokemonService(client, new Mock<ICache>().Object);
 
             // ACT
             var result = await sut.GetPokemon("anything");
@@ -39,7 +40,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             // ARRANGE
             var pokemon = new Pokemon {Id = "6"};
             var client = MockHttpClientGetPokemon(HttpStatusCode.InternalServerError, pokemon);
-            var sut = new PokemonService(client);
+            var sut = new PokemonService(client, new Mock<ICache>().Object);
 
             // ACT
             var result = await sut.GetPokemon("anything");
@@ -56,7 +57,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             // ARRANGE
             var pokemon = new Pokemon {Id = "6"};
             var client = MockHttpClientGetPokemon(HttpStatusCode.InternalServerError, pokemon);
-            var sut = new PokemonService(client);
+            var sut = new PokemonService(client, new Mock<ICache>().Object);
 
             // ACT
             var result = await sut.GetPokemon("");
@@ -73,7 +74,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             // ARRANGE
             var pokemon = new Pokemon {Id = "6"};
             var client = MockHttpClientGetPokemon(HttpStatusCode.NotFound, pokemon);
-            var sut = new PokemonService(client);
+            var sut = new PokemonService(client, new Mock<ICache>().Object);
 
             // ACT
             var result = await sut.GetPokemon("anything");
@@ -107,7 +108,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             const string flavorText = "something";
             var species = MockSpecies(flavorText);
             var client = MockHttpClientGetSpecies(HttpStatusCode.OK, species);
-            var sut = new PokemonService(client);
+            var sut = new PokemonService(client, new Mock<ICache>().Object);
 
             // ACT
             var result = await sut.GetSpecies("anything");
@@ -125,7 +126,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             const string flavorText = "something";
             var species = MockSpecies(flavorText);
             var client = MockHttpClientGetSpecies(HttpStatusCode.InternalServerError, species);
-            var sut = new PokemonService(client);
+            var sut = new PokemonService(client, new Mock<ICache>().Object);
 
             // ACT
             var result = await sut.GetSpecies("anything");
@@ -143,7 +144,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             const string flavorText = "something";
             var species = MockSpecies(flavorText);
             var client = MockHttpClientGetSpecies(HttpStatusCode.InternalServerError, species);
-            var sut = new PokemonService(client);
+            var sut = new PokemonService(client, new Mock<ICache>().Object);
 
             // ACT
             var result = await sut.GetSpecies("");
@@ -161,7 +162,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             const string flavorText = "something";
             var species = MockSpecies(flavorText);
             var client = MockHttpClientGetSpecies(HttpStatusCode.NotFound, species);
-            var sut = new PokemonService(client);
+            var sut = new PokemonService(client, new Mock<ICache>().Object);
 
             // ACT
             var result = await sut.GetSpecies("anything");
