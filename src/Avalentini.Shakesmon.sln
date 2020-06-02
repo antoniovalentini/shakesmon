@@ -9,12 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalentini.Shakesmon.Core",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{58054C64-4F9D-4F59-94F9-FCC5DDBFB38D}"
 	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2B1A2C00-0B2B-451C-816C-F914FE843154}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalentini.Shakesmon.Core.UnitTests", "Avalentini.Shakesmon.Core.UnitTests\Avalentini.Shakesmon.Core.UnitTests.csproj", "{1EA5D09E-58F8-4E8C-9D4D-0BDBD50E8FB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalentini.Shakesmon.Core.UnitTests", "Avalentini.Shakesmon.Core.UnitTests\Avalentini.Shakesmon.Core.UnitTests.csproj", "{1EA5D09E-58F8-4E8C-9D4D-0BDBD50E8FB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
