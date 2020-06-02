@@ -39,7 +39,7 @@ sudo docker build -t shakesmon .
 sudo docker run -d -p 5000:80 -p 5001:443 --name shakesmon shakesmon
 ```
 
-If everything went smoothly, open you browser and navigate to http://localhost:8080/api/pokemon/bulbasaur in order to test the application.
+If everything went smoothly, open you browser and navigate to http://localhost:5000/api/pokemon/bulbasaur or https://localhost:5001/api/pokemon/bulbasaur in order to test the application.
 
 ## LICENSE
 Shakesmon is released under the MIT license.
