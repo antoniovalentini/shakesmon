@@ -17,6 +17,8 @@ namespace Avalentini.Shakesmon.Core.Services.FunTranslations
         private readonly HttpClient _client;
         private const string ShakespeareApiBaseUrl = "https://api.funtranslations.com/translate/";
         private const string ShakespeareRequestUri = "shakespeare.json";
+        public const string ShakespeareInvalidResponseError = "Unable to translate text.";
+        public const string EmptyTranslationError = "Provided translation text is empty.";
 
         public ShakespeareService(HttpClient client)
         {
@@ -27,7 +29,7 @@ namespace Avalentini.Shakesmon.Core.Services.FunTranslations
         public async Task<TranslateResponse> Translate(string text)
         {
             if (string.IsNullOrEmpty(text))
-                return new TranslateResponse{Error = $"{nameof(text)} is empty."};
+                return new TranslateResponse{Error = EmptyTranslationError};
 
             var content = new FormUrlEncodedContent(new[]
             {
@@ -36,7 +38,7 @@ namespace Avalentini.Shakesmon.Core.Services.FunTranslations
             var shakeResponse = await _client.PostAsync(ShakespeareRequestUri, content);
             // TODO: handle requests limit reached
             if (!shakeResponse.IsSuccessStatusCode)
-                return new TranslateResponse{Error = "Unable to translate text."};
+                return new TranslateResponse{Error = ShakespeareInvalidResponseError};
             var translation = JsonConvert.DeserializeObject<Translation>(await shakeResponse.Content.ReadAsStringAsync());
             return new TranslateResponse {Translation = translation};
         }
