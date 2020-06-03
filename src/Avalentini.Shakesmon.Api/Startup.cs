@@ -1,4 +1,3 @@
-using Avalentini.Shakesmon.Core.Common.Cache;
 using Avalentini.Shakesmon.Core.Features.PokemonTranslator;
 using Avalentini.Shakesmon.Core.Services.FunTranslations;
 using Avalentini.Shakesmon.Core.Services.PokeApi;
@@ -23,7 +22,8 @@ namespace Avalentini.Shakesmon.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ICache, SimpleMemoryCache>();
+            services.AddMemoryCache();
+
             services.AddHttpClient<IPokemonService, PokemonService>();
             services.AddHttpClient<IShakespeareService, ShakespeareService>();
             services.AddScoped<PokemonTranslatorFeature>();

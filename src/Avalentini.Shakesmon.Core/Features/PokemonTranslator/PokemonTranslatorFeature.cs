@@ -2,6 +2,7 @@
 using Avalentini.Shakesmon.Core.Common;
 using Avalentini.Shakesmon.Core.Services.FunTranslations;
 using Avalentini.Shakesmon.Core.Services.PokeApi;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Avalentini.Shakesmon.Core.Features.PokemonTranslator
 {
@@ -9,15 +10,22 @@ namespace Avalentini.Shakesmon.Core.Features.PokemonTranslator
     {
         private readonly IPokemonService _pokemonService;
         private readonly IShakespeareService _shakespeareService;
+        private readonly IMemoryCache _cache;
 
-        public PokemonTranslatorFeature(IPokemonService pokemonService, IShakespeareService shakespeareService)
+        public PokemonTranslatorFeature(IPokemonService pokemonService, IShakespeareService shakespeareService, IMemoryCache cache)
         {
             _pokemonService = pokemonService;
             _shakespeareService = shakespeareService;
+            _cache = cache;
         }
 
         public async Task<ExecuteResult> ExecuteAsync(string name)
         {
+            var key = ComputeKey(name);
+            var desc = _cache.Get<string>(key);
+            if (desc != null)
+                return new ExecuteResult {Description = desc};
+
             var pokeResult = await _pokemonService.GetPokemon(name);
             if (!pokeResult.IsSuccess)
                 return Error(pokeResult.Error);
@@ -30,7 +38,13 @@ namespace Avalentini.Shakesmon.Core.Features.PokemonTranslator
             if (!translationResult.IsSuccess)
                 return Error(translationResult.Error);
 
+            _cache.Set(key, translationResult.Translation.Contents.Translated);
             return new ExecuteResult {Description = translationResult.Translation.Contents.Translated};
+        }
+
+        private string ComputeKey(string name)
+        {
+            return $"pokemon_{name}";
         }
 
         private static ExecuteResult Error(string message)
