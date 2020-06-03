@@ -1,5 +1,5 @@
 # Shakesmon
-A simple web app which adds a Shakespeare flavor to pokemon descriptions. It exposes a REST API that, given a Pokemon name, returns its Shakespearean description.
+A simple web app that adds a Shakespeare flavor to pokemon descriptions. It exposes a REST API that, given a Pokemon name, returns its Shakespearean description.
 
 It relies on two platforms:
 - [PokeApi](https://pokeapi.co/) to fetch pokemons' description
@@ -15,7 +15,7 @@ Clone the project on your local machine, navigate to the Shakesmon folder, open 
 ```
 dotnet run --project ./src/Avalentini.Shakesmon.Api/Avalentini.Shakesmon.Api.csproj
 ```
-To test the application, open you browser and navigate to:
+To test the application, open your browser and navigate to:
 ```
 https://localhost:5001/api/pokemon/bulbasaur
 ```
@@ -39,7 +39,25 @@ sudo docker build -t shakesmon .
 sudo docker run -d -p 5000:80 -p 5001:443 --name shakesmon shakesmon
 ```
 
-If everything went smoothly, open you browser and navigate to http://localhost:5000/api/pokemon/bulbasaur or https://localhost:5001/api/pokemon/bulbasaur in order to test the application.
+If everything went smoothly, open your browser and navigate to http://localhost:5000/api/pokemon/bulbasaur or https://localhost:5001/api/pokemon/bulbasaur in order to test the application.
+
+## Solution Details
+The solution is composed of:
+- an API project (ASP.NET Core 3.1 web app)
+- a CORE project (.NET Standard 2.1 plus few nuget dependencies)
+- Unit and Integration test projects
+
+### API
+The API project simply exposes one RESTful endpoint. Usually, we tend to keep this as "business-logic free" as possible. In an ideal world, we should be able to swap APIs technology without having to rewrite so much code.
+
+The project is SWAGGER enabled. You can use the built-in Swagger UI to test the endpoint by navigating the '/swagger/' path. You can also generate a client by following the OpenAPI Specification standard.
+
+### Core
+The CORE project aims to keep business logic away from the "presentation" layer. This must be considered only a first step that can enable a future clean architecture implementation. A nice improvement could be to move interface implementations to a separate project (Infrastructure?) in order to keep the Core (which becomes Domain/Application) business-logic oriented and free from nuget dependencies.
+
+I like to structure Domain projects in a way that is clear for the developer which are the available functionalities (Feature folder) and then have a separate folder with interfaces for all the external dependencies (Services).
+
+The task we're trying to accomplish is not so complex, so for the moment, I'd prefer to keep everything in the same Core project in favor of simplicity and code readability. I'm a fan of the "premature optimization is the root of all evil" rule.
 
 ## LICENSE
 Shakesmon is released under the MIT license.
