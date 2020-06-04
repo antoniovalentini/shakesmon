@@ -17,7 +17,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2B1A2C00
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalentini.Shakesmon.Core.UnitTests", "Avalentini.Shakesmon.Core.UnitTests\Avalentini.Shakesmon.Core.UnitTests.csproj", "{1EA5D09E-58F8-4E8C-9D4D-0BDBD50E8FB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalentini.Shakesmon.Api.IntegrationTests", "Avalentini.Shakesmon.Api.IntegrationTests\Avalentini.Shakesmon.Api.IntegrationTests.csproj", "{CA5D2155-6DF0-401D-BE03-D70C4DD44272}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Avalentini.Shakesmon.Api.IntegrationTests", "Avalentini.Shakesmon.Api.IntegrationTests\Avalentini.Shakesmon.Api.IntegrationTests.csproj", "{CA5D2155-6DF0-401D-BE03-D70C4DD44272}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avalentini.Shakesmon.Core.IntegrationTests", "Avalentini.Shakesmon.Core.IntegrationTests\Avalentini.Shakesmon.Core.IntegrationTests.csproj", "{AF59916C-069A-4BC3-B092-01E0CB67F547}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{CA5D2155-6DF0-401D-BE03-D70C4DD44272}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA5D2155-6DF0-401D-BE03-D70C4DD44272}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA5D2155-6DF0-401D-BE03-D70C4DD44272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF59916C-069A-4BC3-B092-01E0CB67F547}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF59916C-069A-4BC3-B092-01E0CB67F547}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF59916C-069A-4BC3-B092-01E0CB67F547}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF59916C-069A-4BC3-B092-01E0CB67F547}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1EA5D09E-58F8-4E8C-9D4D-0BDBD50E8FB2} = {2B1A2C00-0B2B-451C-816C-F914FE843154}
 		{CA5D2155-6DF0-401D-BE03-D70C4DD44272} = {2B1A2C00-0B2B-451C-816C-F914FE843154}
+		{AF59916C-069A-4BC3-B092-01E0CB67F547} = {2B1A2C00-0B2B-451C-816C-F914FE843154}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {02A60680-DB70-4166-BE44-D8A2463DEA65}

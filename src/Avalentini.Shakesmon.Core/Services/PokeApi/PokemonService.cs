@@ -9,8 +9,8 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
 {
     public interface IPokemonService
     {
-        Task<GetPokemonResponse> GetPokemon(string name);
-        Task<GetSpeciesResponse> GetSpecies(string id);
+        Task<GetPokemonResponse> GetPokemonAsync(string name);
+        Task<GetSpeciesResponse> GetSpeciesFlavorTextAsync(string id);
     }
 
     public class PokemonService : IPokemonService
@@ -34,7 +34,7 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
             _client.BaseAddress = new Uri(PokeApiBaseUrl);
         }
 
-        public async Task<GetPokemonResponse> GetPokemon(string name)
+        public async Task<GetPokemonResponse> GetPokemonAsync(string name)
         {
             if (string.IsNullOrEmpty(name))
                 return new GetPokemonResponse{Error = EmptyPokemonNameError};
@@ -51,7 +51,7 @@ namespace Avalentini.Shakesmon.Core.Services.PokeApi
             return new GetPokemonResponse{Pokemon = pokemon};
         }
 
-        public async Task<GetSpeciesResponse> GetSpecies(string id)
+        public async Task<GetSpeciesResponse> GetSpeciesFlavorTextAsync(string id)
         {
             if (string.IsNullOrEmpty(id))
                 return new GetSpeciesResponse{Error = EmptyPokemonIdError};

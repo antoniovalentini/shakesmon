@@ -25,7 +25,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             var sut = new PokemonService(client);
 
             // ACT
-            var result = await sut.GetPokemon("anything");
+            var result = await sut.GetPokemonAsync("anything");
 
             // ASSERT
             Assert.NotNull(result);
@@ -42,7 +42,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             var sut = new PokemonService(client);
 
             // ACT
-            var result = await sut.GetPokemon("anything");
+            var result = await sut.GetPokemonAsync("anything");
 
             // ASSERT
             Assert.NotNull(result);
@@ -59,7 +59,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             var sut = new PokemonService(client);
 
             // ACT
-            var result = await sut.GetPokemon("");
+            var result = await sut.GetPokemonAsync("");
 
             // ASSERT
             Assert.NotNull(result);
@@ -76,7 +76,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             var sut = new PokemonService(client);
 
             // ACT
-            var result = await sut.GetPokemon("anything");
+            var result = await sut.GetPokemonAsync("anything");
 
             // ASSERT
             Assert.NotNull(result);
@@ -110,7 +110,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             var sut = new PokemonService(client);
 
             // ACT
-            var result = await sut.GetSpecies("anything");
+            var result = await sut.GetSpeciesFlavorTextAsync("anything");
 
             // ASSERT
             Assert.NotNull(result);
@@ -128,7 +128,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             var sut = new PokemonService(client);
 
             // ACT
-            var result = await sut.GetSpecies("anything");
+            var result = await sut.GetSpeciesFlavorTextAsync("anything");
 
             // ASSERT
             Assert.NotNull(result);
@@ -146,7 +146,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             var sut = new PokemonService(client);
 
             // ACT
-            var result = await sut.GetSpecies("");
+            var result = await sut.GetSpeciesFlavorTextAsync("");
 
             // ASSERT
             Assert.NotNull(result);
@@ -164,7 +164,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.PokeApi
             var sut = new PokemonService(client);
 
             // ACT
-            var result = await sut.GetSpecies("anything");
+            var result = await sut.GetSpeciesFlavorTextAsync("anything");
 
             // ASSERT
             Assert.NotNull(result);

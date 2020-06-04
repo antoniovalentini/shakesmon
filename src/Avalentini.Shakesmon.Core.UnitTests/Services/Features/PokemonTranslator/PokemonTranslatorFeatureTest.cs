@@ -36,10 +36,10 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.Features.PokemonTranslato
 
             var pokemonService = new Mock<IPokemonService>();
             pokemonService
-                .Setup(ps => ps.GetPokemon(It.IsAny<string>()))
+                .Setup(ps => ps.GetPokemonAsync(It.IsAny<string>()))
                 .ReturnsAsync(new GetPokemonResponse{Pokemon = new Pokemon{Id = "anything"}});
             pokemonService
-                .Setup(ps => ps.GetSpecies(It.IsAny<string>()))
+                .Setup(ps => ps.GetSpeciesFlavorTextAsync(It.IsAny<string>()))
                 .ReturnsAsync(new GetSpeciesResponse {FlavorTextEntry = new FlavorTextEntry {FlavorText = "anything"}});
 
             const string translated = "translated";
@@ -84,7 +84,7 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.Features.PokemonTranslato
             var cache = MockValidCache();
             var pokemonService = new Mock<IPokemonService>();
             pokemonService
-                .Setup(ps => ps.GetPokemon(It.IsAny<string>()))
+                .Setup(ps => ps.GetPokemonAsync(It.IsAny<string>()))
                 .ReturnsAsync(new GetPokemonResponse{Error = "get pokemon error"});
 
             // ACT
@@ -103,10 +103,10 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.Features.PokemonTranslato
             var cache = MockValidCache();
             var pokemonService = new Mock<IPokemonService>();
             pokemonService
-                .Setup(ps => ps.GetPokemon(It.IsAny<string>()))
+                .Setup(ps => ps.GetPokemonAsync(It.IsAny<string>()))
                 .ReturnsAsync(new GetPokemonResponse{Pokemon = new Pokemon{Id = "anything"}});
             pokemonService
-                .Setup(ps => ps.GetSpecies(It.IsAny<string>()))
+                .Setup(ps => ps.GetSpeciesFlavorTextAsync(It.IsAny<string>()))
                 .ReturnsAsync(new GetSpeciesResponse {Error = "get species error"});
 
             // ACT
@@ -126,10 +126,10 @@ namespace Avalentini.Shakesmon.Core.UnitTests.Services.Features.PokemonTranslato
 
             var pokemonService = new Mock<IPokemonService>();
             pokemonService
-                .Setup(ps => ps.GetPokemon(It.IsAny<string>()))
+                .Setup(ps => ps.GetPokemonAsync(It.IsAny<string>()))
                 .ReturnsAsync(new GetPokemonResponse{Pokemon = new Pokemon{Id = "anything"}});
             pokemonService
-                .Setup(ps => ps.GetSpecies(It.IsAny<string>()))
+                .Setup(ps => ps.GetSpeciesFlavorTextAsync(It.IsAny<string>()))
                 .ReturnsAsync(new GetSpeciesResponse {FlavorTextEntry = new FlavorTextEntry {FlavorText = "anything"}});
 
             var shakespeareService = new Mock<IShakespeareService>();

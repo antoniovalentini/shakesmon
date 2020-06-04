@@ -26,11 +26,11 @@ namespace Avalentini.Shakesmon.Core.Features.PokemonTranslator
             if (!string.IsNullOrEmpty(desc))
                 return new ExecuteResult {Description = desc};
 
-            var pokeResult = await _pokemonService.GetPokemon(name);
+            var pokeResult = await _pokemonService.GetPokemonAsync(name);
             if (!pokeResult.IsSuccess)
                 return Error(pokeResult.Error);
 
-            var speciesResult = await _pokemonService.GetSpecies(pokeResult.Pokemon.Id);
+            var speciesResult = await _pokemonService.GetSpeciesFlavorTextAsync(pokeResult.Pokemon.Id);
             if (!speciesResult.IsSuccess)
                 return Error(speciesResult.Error);
 
