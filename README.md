@@ -52,7 +52,7 @@ The solution is composed of:
 ### API
 The API project simply exposes one RESTful endpoint. Usually, we tend to keep this as "business-logic free" as possible. In an ideal world, we should be able to swap APIs technology without having to rewrite so much code.
 
-The project is SWAGGER enabled. You can use the built-in Swagger UI to test the endpoint by navigating the '/swagger/' path. You can also generate a client by following the OpenAPI Specification standard.
+The project is **SWAGGER** enabled. You can use the built-in Swagger UI to test the endpoint by navigating the '/swagger/' path. You can also generate a client by following the OpenAPI Specification standard.
 
 ### Core
 The CORE project aims to keep business logic away from the "presentation" layer. This must be considered only a first step that can enable a future clean architecture implementation. A nice improvement could be to move interface implementations to a separate project (Infrastructure?) in order to keep the Core (which becomes Domain/Application) business-logic oriented and free from nuget dependencies.
@@ -62,7 +62,7 @@ I like to structure Domain projects in a way that is clear for the developer whi
 The task we're trying to accomplish is not so complex, so for the moment, I'd prefer to keep everything in the same Core project in favor of simplicity and code readability. I'm a fan of the "premature optimization is the root of all evil" rule.
 
 ## Extras
-Given the limitations due to the free plan of the 3rd party api platforms, it was necessary to add a caching system. Translated descriptions are cached using a simple in-memory cache provided out-of-the-box by microsoft. [You can read more here](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-3.1).
+Given the limitations due to the free plan of the 3rd party api platforms, it was necessary to add a **caching system**. Translated descriptions are cached using a simple in-memory cache provided out-of-the-box by microsoft. [You can read more here](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-3.1).
 
 ## LICENSE
 Shakesmon is released under the MIT license.
