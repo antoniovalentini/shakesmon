@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Avalentini.Shakesmon.Core.Services.FunTranslations.Dto;
 using Newtonsoft.Json;
@@ -33,7 +34,7 @@ namespace Avalentini.Shakesmon.Core.Services.FunTranslations
 
             var content = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("text", text)
+                new KeyValuePair<string, string>("text", Regex.Replace(text, @"\n|\f", " "))
             });
             var shakeResponse = await _client.PostAsync(ShakespeareRequestUri, content);
             // TODO: handle requests limit reached
