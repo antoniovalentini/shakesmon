@@ -3,4 +3,5 @@ mono: none
 solution: Avalentini.Shakesmon.sln
 dotnet: 3.1.300
 script:
+ - cd src
  - dotnet restore
