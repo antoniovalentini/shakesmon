@@ -9,6 +9,8 @@ namespace Avalentini.Shakesmon.Api.Controllers
     public class PokemonController : ControllerBase
     {
         private readonly PokemonTranslatorFeature _feature;
+        public const string EmptyPokemonNameError = "Pokemon name cannot be empty. Don't know what to choose? Try 'charizard'";
+        public const string ProvidePokemonNameMessage = "Please, provide a pokemon name.";
 
         public PokemonController(PokemonTranslatorFeature feature)
         {
@@ -18,7 +20,7 @@ namespace Avalentini.Shakesmon.Api.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok("Please, provide a pokemon name.");
+            return Ok(ProvidePokemonNameMessage);
         }
 
         [HttpGet("{name}")]
@@ -26,7 +28,7 @@ namespace Avalentini.Shakesmon.Api.Controllers
         {
             // TODO: make language customizable?
             if (string.IsNullOrEmpty(name))
-                return BadRequest("Pokemon name cannot be empty. Don't know what to choose? Try 'charizard'");
+                return BadRequest(EmptyPokemonNameError);
 
             var result = await _feature.ExecuteAsync(name);
 

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
 using Avalentini.Shakesmon.Api.Controllers;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
@@ -9,31 +10,42 @@ namespace Avalentini.Shakesmon.Api.IntegrationTests.Controllers
 {
     public class PokemonControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
-        private readonly WebApplicationFactory<Startup> _factory;
+        private readonly HttpClient _client;
         private readonly ITestOutputHelper _output;
-        private readonly string _pokemonGetUrl = $"api/pokemon/{PokemonName}";
-        private const string PokemonName = "charizard";
+        private const string PokemonUrl = "api/pokemon";
 
         public PokemonControllerTests(WebApplicationFactory<Startup> factory, ITestOutputHelper output)
         {
-            _factory = factory;
             _output = output;
+            _client = factory.CreateClient();
         }
 
         [Fact]
         public async Task GetOperation_ShouldReturnTranslation()
         {
             // Arrange
-            var client = _factory.CreateClient();
+            const string pokemonName = "charizard";
 
             // Act
-            var response = await client.GetAsync(_pokemonGetUrl);
+            var response = await _client.GetAsync($"{PokemonUrl}/{pokemonName}");
 
             // Assert
             response.EnsureSuccessStatusCode();
             var dto = JsonConvert.DeserializeObject<GetDto>(await response.Content.ReadAsStringAsync());
-            Assert.True(dto.Name.Equals(PokemonName));
+            Assert.True(dto.Name.Equals(pokemonName));
             _output.WriteLine(dto.Description);
+        }
+
+        [Fact]
+        public async Task GetOperation_ShouldReturnMessage_WhenNameNotSpecified()
+        {
+            // Act
+            var response = await _client.GetAsync(PokemonUrl);
+
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            Assert.True(content.Equals(PokemonController.ProvidePokemonNameMessage));
         }
     }
 }
