@@ -6,4 +6,4 @@ script:
  - cd src
  - dotnet restore
  - dotnet build -c Release
- - dotnet test
+ - dotnet test ./Avalentini.Shakesmon.Core.UnitTests/Avalentini.Shakesmon.Core.UnitTests.csproj
