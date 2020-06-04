@@ -23,7 +23,7 @@ namespace Avalentini.Shakesmon.Core.Features.PokemonTranslator
         {
             var key = ComputeKey(name);
             var desc = _cache.Get<string>(key);
-            if (desc != null)
+            if (!string.IsNullOrEmpty(desc))
                 return new ExecuteResult {Description = desc};
 
             var pokeResult = await _pokemonService.GetPokemon(name);
