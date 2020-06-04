@@ -21,20 +21,19 @@ namespace Avalentini.Shakesmon.Api.IntegrationTests.Controllers
         }
 
         [Fact]
-        public void Simple()
+        public async Task GetOperation_ShouldReturnTranslation()
         {
-            _output.WriteLine("simple integration test");
-            //// Arrange
-            //var client = _factory.CreateClient();
+            // Arrange
+            var client = _factory.CreateClient();
 
-            //// Act
-            //var response = await client.GetAsync(_pokemonGetUrl);
+            // Act
+            var response = await client.GetAsync(_pokemonGetUrl);
 
-            //// Assert
-            //response.EnsureSuccessStatusCode();
-            //var dto = JsonConvert.DeserializeObject<GetDto>(await response.Content.ReadAsStringAsync());
-            //Assert.True(dto.Name.Equals(PokemonName));
-            //_output.WriteLine(dto.Description);
+            // Assert
+            response.EnsureSuccessStatusCode();
+            var dto = JsonConvert.DeserializeObject<GetDto>(await response.Content.ReadAsStringAsync());
+            Assert.True(dto.Name.Equals(PokemonName));
+            _output.WriteLine(dto.Description);
         }
     }
 }
