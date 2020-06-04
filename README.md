@@ -59,6 +59,9 @@ I like to structure Domain projects in a way that is clear for the developer whi
 
 The task we're trying to accomplish is not so complex, so for the moment, I'd prefer to keep everything in the same Core project in favor of simplicity and code readability. I'm a fan of the "premature optimization is the root of all evil" rule.
 
+## Extras
+Given the limitations due to the free plan of the 3rd party api platforms, it was necessary to add a caching system. Translated descriptions are cached using a simple in-memory cache provided out-of-the-box by microsoft. [You can read more here](https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-3.1).
+
 ## LICENSE
 Shakesmon is released under the MIT license.
 
